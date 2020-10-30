@@ -1,0 +1,13 @@
+- hosts: all
+  become: true
+
+  tasks:
+    - name: Clone/Pull ANY repo ANY branch.
+      git:
+        repo: SSH link of repo
+        dest: /var/www/html/.  #Path . means here only
+        clone: no              #Clone or pull
+        update: yes 
+        version: master        #Branch
+        accept_hostkey: yes
+      become: no               #User details
