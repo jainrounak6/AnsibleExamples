@@ -17,7 +17,7 @@
       become: no
 
     
-    - name: Copy nginx config file to config location (multiple files).
+    - name: Copy multiple files to any location.
       copy:
         src:  "../nginx/{{item}}"
         dest: /etc/nginx/
@@ -26,4 +26,17 @@
         group: root
         mode: '644' 
       with_items:
-        ['blacklist_ip.conf' , 'cache.conf' , 'nginx.conf' , 'default' ]
+        ['blacklist_ip.conf' , 'cache.conf' , 'nginx.conf' , 'default' ]  #Files
+        
+
+    - name: Permission assigning to script
+      become: yes
+      become_user: root
+      command: chmod 755 /path
+
+
+    - name: Run shell script
+      become: yes
+      become_user: root
+      command: bash /home/ubuntu/script.sh
+       
