@@ -1,0 +1,29 @@
+- hosts: all
+  become: true
+  
+  tasks:
+    - name: Delete old repo
+      become: yes
+      become_user: root
+      command: rm -rf /home/ubuntu/
+
+    - name: Clone any repo with ssh key
+      git:
+        repo: SSH URL
+        version: master  #Branch
+        dest: /home/ubuntu/ #Directory
+        accept_hostkey: yes
+        # ssh-agent doesn't allow key to pass through remote sudo commands.
+      become: no
+
+    
+    - name: Copy nginx config file to config location (multiple files).
+      copy:
+        src:  "../nginx/{{item}}"
+        dest: /etc/nginx/
+        follow: no
+        owner: root
+        group: root
+        mode: '644' 
+      with_items:
+        ['blacklist_ip.conf' , 'cache.conf' , 'nginx.conf' , 'default' ]
